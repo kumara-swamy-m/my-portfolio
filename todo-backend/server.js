@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2'); // use mysql2 for compatibility
 const cors = require('cors');
@@ -8,18 +9,24 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // ✅ Database Connection
+const mysql = require('mysql2');
+
 const db = mysql.createConnection({
-  host: 'mysql.railway.internal',
-  user: 'root',        // change if you use another user
-  password: 'Kumarasql@2004',        // add your MySQL password if set
-  database: 'railway',
-  port:3306
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
 });
 
 db.connect(err => {
-  if (err) throw err;
-  console.log('✅ MySQL Connected to Railway...');
+  if (err) {
+    console.error('❌ Database connection failed:', err);
+    process.exit(1);
+  }
+  console.log('✅ Connected to MySQL Database');
 });
+
 
 // ✅ Ensure tasks table exists
 db.query(`CREATE TABLE IF NOT EXISTS tasks(
