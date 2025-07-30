@@ -1,0 +1,16 @@
+# Node modules
+todo-frontend/node_modules/
+todo-backend/node_modules/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# Build output (React build folder)
+todo-frontend/build/
+
+# OS/System files
+.DS_Store
+Thumbs.db
