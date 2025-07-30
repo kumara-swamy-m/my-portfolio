@@ -1,16 +1,12 @@
-require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2'); // use mysql2 for compatibility
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const mysql = require('mysql2');   // ✅ only one declaration
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// ✅ Database Connection
-const mysql = require('mysql2');
-
+// ✅ Database Connection (using Render Environment Variables)
 const db = mysql.createConnection({
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,
@@ -19,59 +15,55 @@ const db = mysql.createConnection({
   port: process.env.MYSQLPORT
 });
 
+// ✅ Connect to Database
 db.connect(err => {
   if (err) {
     console.error('❌ Database connection failed:', err);
-    process.exit(1);
+    return;
   }
-  console.log('✅ Connected to MySQL Database');
+  console.log('✅ Connected to Railway MySQL!');
 });
 
+// ✅ Routes
 
-// ✅ Ensure tasks table exists
-db.query(`CREATE TABLE IF NOT EXISTS tasks(
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL
-)`, (err) => {
-  if (err) throw err;
-  console.log('✅ tasks table ready');
-});
-
-// ✅ Get all tasks
+// Get all tasks
 app.get('/tasks', (req, res) => {
   db.query('SELECT * FROM tasks', (err, results) => {
-    if (err) throw err;
+    if (err) return res.status(500).send(err);
     res.json(results);
   });
 });
 
-// ✅ Add new task
+// Add a task
 app.post('/tasks', (req, res) => {
   const { title } = req.body;
   db.query('INSERT INTO tasks (title) VALUES (?)', [title], (err, result) => {
-    if (err) throw err;
+    if (err) return res.status(500).send(err);
     res.json({ id: result.insertId, title });
   });
 });
 
-// ✅ Delete task
+// Delete a task
 app.delete('/tasks/:id', (req, res) => {
   const { id } = req.params;
   db.query('DELETE FROM tasks WHERE id = ?', [id], (err) => {
-    if (err) throw err;
-    res.json({ success: true });
+    if (err) return res.status(500).send(err);
+    res.sendStatus(200);
   });
 });
 
-// ✅ Update (Edit) task
+// Edit (Update) a task
 app.put('/tasks/:id', (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
   db.query('UPDATE tasks SET title = ? WHERE id = ?', [title, id], (err) => {
-    if (err) throw err;
-    res.json({ success: true, id, title });
+    if (err) return res.status(500).send(err);
+    res.sendStatus(200);
   });
 });
 
 // ✅ Start Server
-app.listen(5000, () => console.log('🚀 Backend running on port 5000'));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
