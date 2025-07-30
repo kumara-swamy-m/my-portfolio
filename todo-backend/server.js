@@ -9,15 +9,16 @@ app.use(bodyParser.json());
 
 // ✅ Database Connection
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: 'mysql.railway.internal',
   user: 'root',        // change if you use another user
   password: 'Kumarasql@2004',        // add your MySQL password if set
-  database: 'todo_db'
+  database: 'railway',
+  port:3306
 });
 
 db.connect(err => {
   if (err) throw err;
-  console.log('✅ MySQL Connected...');
+  console.log('✅ MySQL Connected to Railway...');
 });
 
 // ✅ Ensure tasks table exists
