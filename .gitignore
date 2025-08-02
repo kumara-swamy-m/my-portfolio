@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -21,3 +22,21 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+=======
+# Node modules
+todo-frontend/node_modules/
+todo-backend/node_modules/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# Build output (React build folder)
+todo-frontend/build/
+
+# OS/System files
+.DS_Store
+Thumbs.db
+>>>>>>> 96ff3b323868e6eecfcfddd296e937cda905c03d
