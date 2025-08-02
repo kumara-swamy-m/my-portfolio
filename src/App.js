@@ -85,7 +85,7 @@ function App() {
             <div className="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition">
               <h3 className="text-xl font-semibold text-blue-600">Portfolio Website</h3>
               <p className="text-gray-600 mt-2">A responsive React-based portfolio with Tailwind CSS.</p>
-              <a href="https://your-portfolio-link.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 mt-3 block hover:underline">
+              <a href="my-portfolio-hew9wov8a-kumara-swamy-ms-projects.vercel.app" target="_blank" rel="noopener noreferrer" className="text-blue-500 mt-3 block hover:underline">
                 View Project →
               </a>
             </div>
